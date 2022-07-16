@@ -233,7 +233,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 14
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
@@ -411,10 +411,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e47cab116771364ab3b00101752795f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardColor: {fileID: 3169922982177179758}
+  img: {fileID: 3169922982449555446}
+  txtTitle: {fileID: 3169922981619593203}
+  txtDescription: {fileID: 3169922981254179861}
   id: 0
   tier: 0
   name: 
   description: 
+  physDamage: 0
+  fireDamage: 0
+  enerDamage: 0
+  physShield: 0
+  iceShield: 0
+  enerShield: 0
+  poison: 0
+  sleepy: 0
+  fragile: 0
+  speed: 0
+  strength: 0
+  focus: 0
 --- !u!1 &3169922982449555440
 GameObject:
   m_ObjectHideFlags: 0
