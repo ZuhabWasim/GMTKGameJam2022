@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public struct Tier
 {
@@ -20,14 +21,14 @@ public struct Tier
 }
 
 [Serializable]
-public class Card
+public class Card : MonoBehaviour
 {
     public int id;
     public int tier;
 
     public string name;
     public string description;
-
+    
     public Card(int id = 0, int tier = 0, string name = "", string description = "")
     {
         this.tier = tier;
@@ -35,7 +36,7 @@ public class Card
         this.name = name;
         this.description = description;
     }
-
+    
     protected virtual void CardEffects()
     {
     }

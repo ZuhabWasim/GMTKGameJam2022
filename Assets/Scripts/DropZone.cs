@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
+    public DropZoneType dropZonetype;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         
@@ -17,7 +19,11 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     }
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log(eventData.pointerDrag.name + "was dropped onto " + gameObject.name);
+        GameObject cardObj = eventData.pointerDrag;
+        Card card = cardObj.GetComponent<Card>();
+        
+        
+        Debug.Log("Card " + card.name + " with ID " + card.id + " was dropped onto " + gameObject.name);
 
         Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
         
@@ -25,11 +31,12 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         {
             d.parentToReturnTo = this.transform;
         }
+        
+        
     }
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame

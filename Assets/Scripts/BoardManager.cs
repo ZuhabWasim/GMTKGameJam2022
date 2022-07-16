@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DropZoneType
+{
+    CRAFTING,
+    PLAYING
+}
+
 public class BoardManager : MonoBehaviour
 {
     [SerializeField]
@@ -20,5 +26,10 @@ public class BoardManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public Player getPlayerTurn()
+    {
+        return player1.turn ? player1 : player2;
     }
 }
