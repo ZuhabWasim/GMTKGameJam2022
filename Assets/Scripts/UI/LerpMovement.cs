@@ -13,6 +13,8 @@ public class LerpMovement : MonoBehaviour
     public float speed;
     private float elapsedTime;
 
+    private bool isMoving;
+
     
 
     private bool Toggle = false;
@@ -21,19 +23,27 @@ public class LerpMovement : MonoBehaviour
     void Update()
     {
         
+        /*
+        if (!isMoving)
+        {
+            elapsedTime = 0f;
+        }
+        */
         elapsedTime += Time.deltaTime;
         float percentageComplete = elapsedTime / speed;
 
         if (Toggle)
         {
             LoadOutPos.transform.position = Vector3.Lerp(InitPos.transform.position, TargetPos.transform.position, percentageComplete);
-        }else if (!Toggle)
+
+        }
+        else if (!Toggle)
         {
             LoadOutPos.transform.position = Vector3.Lerp(LoadOutPos.transform.position, InitPos.transform.position, percentageComplete);
         }
         //Debug.Log(Toggle);
-
-
+        //Debug.Log(elapsedTime);
+        Debug.Log(percentageComplete);
     }
     
     public void LoadOutSliding()
@@ -41,7 +51,8 @@ public class LerpMovement : MonoBehaviour
         if (Toggle)
         {
             Toggle = false;
-        }else if (!Toggle)
+        }
+        else if (!Toggle)
         {
             Toggle = true;
         }
