@@ -5,7 +5,8 @@ using UnityEngine;
 public enum DropZoneType
 {
     CRAFTING,
-    PLAYING
+    PLAYING,
+    HAND,
 }
 
 public class BoardManager : MonoBehaviour

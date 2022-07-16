@@ -390,6 +390,7 @@ GameObject:
   - component: {fileID: 485431741}
   - component: {fileID: 485431743}
   - component: {fileID: 485431744}
+  - component: {fileID: 485431745}
   m_Layer: 5
   m_Name: Hand
   m_TagString: Untagged
@@ -497,6 +498,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce306c839f961c488836a552b3ad58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropZonetype: 2
+  cardStack: {fileID: 0}
+--- !u!114 &485431745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485431739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79a1cbd27fea63b43912ef4a8be7bbb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLimited: 1
+  stackLimit: 5
+  stack: []
 --- !u!1 &610184853
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,6 +631,7 @@ GameObject:
   - component: {fileID: 734964452}
   - component: {fileID: 734964451}
   - component: {fileID: 734964450}
+  - component: {fileID: 734964454}
   m_Layer: 5
   m_Name: Playing
   m_TagString: Untagged
@@ -654,6 +673,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce306c839f961c488836a552b3ad58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropZonetype: 1
+  cardStack: {fileID: 0}
 --- !u!114 &734964451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -718,6 +739,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 734964448}
   m_CullTransparentMesh: 1
+--- !u!114 &734964454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734964448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79a1cbd27fea63b43912ef4a8be7bbb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLimited: 1
+  stackLimit: 3
+  stack: []
 --- !u!1001 &986838504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -853,6 +889,7 @@ GameObject:
   - component: {fileID: 995800196}
   - component: {fileID: 995800195}
   - component: {fileID: 995800198}
+  - component: {fileID: 995800199}
   m_Layer: 5
   m_Name: Crafting
   m_TagString: Untagged
@@ -958,6 +995,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce306c839f961c488836a552b3ad58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropZonetype: 0
+  cardStack: {fileID: 0}
+--- !u!114 &995800199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995800193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79a1cbd27fea63b43912ef4a8be7bbb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLimited: 0
+  stackLimit: 0
+  stack: []
 --- !u!1001 &1030114498
 PrefabInstance:
   m_ObjectHideFlags: 0

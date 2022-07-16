@@ -6,10 +6,11 @@ using UnityEngine.EventSystems;
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Transform parentToReturnTo = null;
+    public DropZone sourceDropZone;
     
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("On Begin Drag");
+        /*Debug.Log("On Begin Drag");*/
 
         parentToReturnTo = this.transform.parent;
         this.transform.SetParent( this.transform.parent.parent );
@@ -26,7 +27,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("On End Drag");
+        /*Debug.Log("On End Drag");*/
         
         this.transform.SetParent( parentToReturnTo);
         
@@ -35,9 +36,13 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     // Start is called before the first frame update
     void Start()
     {
-        
+        UpdateDropZone(this.transform.parent.GetComponent<DropZone>());
     }
 
+    public void UpdateDropZone(DropZone dropZone)
+    {
+        sourceDropZone = dropZone;
+    }
     // Update is called once per frame
     void Update()
     {
