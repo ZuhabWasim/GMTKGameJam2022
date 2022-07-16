@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3169922982177179752, guid: f12d301c278d0154ea56b117c511f4da, type: 3}
       propertyPath: m_Name
-      value: Card (1)
+      value: 1-KnifeAttack
       objectReference: {fileID: 0}
     - target: {fileID: 3169922982177179753, guid: f12d301c278d0154ea56b117c511f4da, type: 3}
       propertyPath: m_Pivot.x
@@ -124,8 +124,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6307348937555952336, guid: f12d301c278d0154ea56b117c511f4da, type: 3}
+      propertyPath: physDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6307348937555952336, guid: f12d301c278d0154ea56b117c511f4da, type: 3}
       propertyPath: description
-      value: Phys. Attack for 5 dmg
+      value: Phys. attack for 5 dmg
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f12d301c278d0154ea56b117c511f4da, type: 3}

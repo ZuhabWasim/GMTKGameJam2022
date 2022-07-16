@@ -64,8 +64,20 @@ public class Card : MonoBehaviour
     }
 
     void Start() {
-        //Assign color based on tier
-        cardColor.color = new Color32(100, 100, 100, 255);
+        //Assign card color based on tier
+        if (tier == 0) {
+            cardColor.color = new Color32(159, 227, 254, 255);
+        } else if (tier == 1) {
+            cardColor.color = new Color32(247, 252, 168, 255);
+        } else if (tier == 2) {
+            cardColor.color = new Color32(254, 207, 159, 255);
+        } else if (tier == 3) {
+            cardColor.color = new Color32(178, 254, 219, 255);
+        } else if (tier == 3) {
+            cardColor.color = new Color32(223, 155, 253, 255);
+        } else if (tier == 3) {
+            cardColor.color = new Color32(253, 157, 203, 255);
+        }
 
         txtTitle.text = name;
         txtDescription.text = description;
