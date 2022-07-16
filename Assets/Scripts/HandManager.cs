@@ -76,9 +76,9 @@ public class HandManager : MonoBehaviour
                 // TODO: Researching functionality.
                 // Generate a random card of any tier but the research tier
                 // Force player to select where they want the new card to be
-                drawCard(index);
+                DrawCard(index);
             else
-                drawCard(index);
+                DrawCard(index);
 
             crafting.Clear();
             return true;
@@ -87,9 +87,12 @@ public class HandManager : MonoBehaviour
         return false;
     }
 
-    public void drawCard(int deckIndex)
+    public bool DrawCard(int deckIndex)
     {
-        var card = deck.GetCard(deckIndex);
+        if (hand.Count == HAND_SIZE) return false;
+        
+        Card card = deck.GetCard(deckIndex);
         hand.Add(card);
+        return true;
     }
 }
