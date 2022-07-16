@@ -5,10 +5,11 @@ public class Deck : MonoBehaviour
 {
     public static int DECK_SIZE = 12;
     public static int RESEARCH_CARD = 6;
+    public static int RESEARCH_TIER = 3;
     public static int STARTING_CARDS = 6;
 
     public List<Tier> _tiers = new();
-    
+
     public List<Card> _deck = new(DECK_SIZE);
 
     private void Start()

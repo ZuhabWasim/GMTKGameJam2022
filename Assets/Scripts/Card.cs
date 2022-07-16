@@ -1,4 +1,4 @@
-using UnityEngine;
+using System;
 
 public struct Tier
 {
@@ -18,7 +18,8 @@ public struct Tier
         name = tierName;
     }
 }
-[System.Serializable]
+
+[Serializable]
 public class Card
 {
     public int id;
