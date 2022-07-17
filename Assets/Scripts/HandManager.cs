@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,9 +7,16 @@ public class HandManager : MonoBehaviour
 {
     public static int HAND_SIZE = 5;
     public static int PLAY_SIZE = 3;
+    
+    // TODO: See if i should replace each individual card stack with a list of lists.
+    public static int HAND = 0;
+    public static int CRAFTING = 1;
+    public static int PLAYING = 2;
+    public static int RESEARCHING = 3;
 
     public Deck deck;
-
+    public bool isResearching = false;
+    
     [SerializeField] public CardStack crafting;
     [SerializeField] public CardStack hand;
     [SerializeField] public CardStack playing;
@@ -37,10 +45,16 @@ public class HandManager : MonoBehaviour
 
     public bool CraftCard()
     {
-        var index = getCraftableIndex();
+        var index = getCraftableIndex(); // The sum of all the crafting cards.
+
+        if (researching.Size() > 0)
+        {
+            return false;
+        }
+        
         if (deck.isCraftableCard(index))
         {
-            if (index == Deck.RESEARCH_CARD)
+            if (index == Deck.RESEARCH_CARD_INDEX)
             {
                 Research();
                 // TODO: Researching functionality.
@@ -74,5 +88,10 @@ public class HandManager : MonoBehaviour
         // Generate a random tier and random card (that's not the research tier).
         int tierID = Tier.TIER_IDS[Random.Range(0, Tier.TIER_IDS.Length)];
         Card card = deck.researchCardFromTier(tierID);
+        
+        researching.addToStack(card);
+
+        isResearching = true;
+
     }
 }

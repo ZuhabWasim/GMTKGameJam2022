@@ -79,4 +79,5 @@ public class CardStack : MonoBehaviour
     {
         stack.Clear();
     }
+    
 }
