@@ -5,12 +5,11 @@ public class Deck : MonoBehaviour
 {
     public static int DECK_SIZE = 12;
     public static int RESEARCH_CARD = 6;
-    public static int RESEARCH_TIER = 3;
     public static int STARTING_CARDS = 6;
 
-    public List<Tier> _tiers = new();
+    [SerializeField] private List<Tier> _tiers = new();
 
-    public List<Card> _deck = new(DECK_SIZE);
+    public List<Card> _deck = new List<Card>(DECK_SIZE);
 
     private void Start()
     {
@@ -21,21 +20,23 @@ public class Deck : MonoBehaviour
 
     private void PickStartingCards()
     {
-        var tempID = 1;
         // Generate a random cards for tier 0, 1, and 2. Place them in the tier in the deck
-        foreach (var tier in _tiers)
+
+        foreach (Tier tier in _tiers)
+        {
             if (tier.end <= STARTING_CARDS)
-                for (var i = tier.start; i < tier.end; i++)
+            {
+                for (int i = tier.start; i < tier.end; i++)
                 {
-                    // TODO: Generate a random card of the specific tiers.
-                    _deck[i] = new Card(tempID, tier.rarity, "Card Name", "Card Description");
-                    tempID += 1;
+                    _deck[i] = tier.GetRandomCardWithoutReplacement();
                 }
+            }
+        }
     }
 
     private void InitializeDeck()
     {
-        for (var i = 0; i < DECK_SIZE; i++) _deck.Add(null);
+        for (int i = 0; i < DECK_SIZE; i++) _deck.Add(null);
     }
 
     private void InitializeTiers()
@@ -91,5 +92,10 @@ public class Deck : MonoBehaviour
     public bool isCraftableCard(int sum)
     {
         return _deck[sum] != null;
+    }
+
+    public Card researchCardFromTier(int tierID)
+    {
+        return _tiers[tierID].GetRandomCardWithoutReplacement();
     }
 }

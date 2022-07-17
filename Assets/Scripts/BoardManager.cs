@@ -4,18 +4,18 @@ using UnityEngine;
 
 public enum DropZoneType
 {
+    UNASSIGNED,
     CRAFTING,
     PLAYING,
     HAND,
+    RESEARCHING,
 }
 
 public class BoardManager : MonoBehaviour
 {
-    [SerializeField]
-    private Player player1;
-    [SerializeField]
-    private Player player2;
-    
+    [SerializeField] private Player player1;
+    [SerializeField] private Player player2;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +26,6 @@ public class BoardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public Player getPlayerTurn()
