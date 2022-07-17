@@ -1,17 +1,24 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.UI;
 using TMPro;
+using Random = UnityEngine.Random;
 
-public struct Tier
+[Serializable]
+public class Tier
 {
+    public static int[] TIER_IDS = new int[] {0, 1, 2, 4, 5};
+    public static int RESEARCH_TIER = 3;
+
     public int start;
     public int end; // Exclusive
     public int size;
 
     public int rarity;
     public string name;
+
+    public List<Card> cardChoices = new();
 
     public Tier(int tierStart, int tierEnd, int tierRarity, string tierName = null)
     {
@@ -20,6 +27,46 @@ public struct Tier
         size = end - start;
         rarity = tierRarity;
         name = tierName;
+
+        GameObject cardBank = GameObject.FindGameObjectWithTag("CardBank");
+
+        foreach (Transform child in cardBank.transform)
+        {
+            Card card = child.GetComponent<Card>();
+            if (card.tier == this.rarity)
+            {
+                cardChoices.Add(card);
+            }
+        }
+    }
+
+    public Card GetCardChoice(int cardIndex)
+    {
+        foreach (Card card in cardChoices)
+        {
+            if (card.id == cardIndex)
+            {
+                return card;
+            }
+        }
+
+        return null;
+    }
+
+    public Card GetRandomCard()
+    {
+        int roll = Random.Range(0, cardChoices.Count - 1);
+
+        return cardChoices[roll];
+    }
+
+    public Card GetRandomCardWithoutReplacement()
+    {
+        int roll = Random.Range(0, cardChoices.Count - 1);
+
+        Card card = cardChoices[roll];
+        cardChoices.RemoveAt(roll);
+        return card;
     }
 }
 
@@ -30,8 +77,8 @@ public class Card : MonoBehaviour
     public Image img;
     public TMP_Text txtTitle;
     public TMP_Text txtDescription;
-    
-    
+
+
     public int id;
     public int tier;
 
@@ -39,22 +86,22 @@ public class Card : MonoBehaviour
     public string description;
 
 
-    public int physDamage=0;
-    public int fireDamage=0;
-    public int enerDamage=0;
+    public int physDamage = 0;
+    public int fireDamage = 0;
+    public int enerDamage = 0;
 
-    public int physShield=0;
-    public int iceShield=0;
-    public int enerShield=0;
+    public int physShield = 0;
+    public int iceShield = 0;
+    public int enerShield = 0;
 
-    public int poison=0;
-    public int sleepy=0;
-    public int fragile=0;
-    public int speed=0;
-    public int strength=0;
-    public int focus=0;
+    public int poison = 0;
+    public int sleepy = 0;
+    public int fragile = 0;
+    public int speed = 0;
+    public int strength = 0;
+    public int focus = 0;
 
-    
+
     public Card(int id = 0, int tier = 0, string name = "", string description = "")
     {
         this.tier = tier;
@@ -63,19 +110,31 @@ public class Card : MonoBehaviour
         this.description = description;
     }
 
-    void Start() {
+    void Start()
+    {
         //Assign card color based on tier
-        if (tier == 0) {
+        if (tier == 0)
+        {
             cardColor.color = new Color32(159, 227, 254, 255);
-        } else if (tier == 1) {
+        }
+        else if (tier == 1)
+        {
             cardColor.color = new Color32(247, 252, 168, 255);
-        } else if (tier == 2) {
+        }
+        else if (tier == 2)
+        {
             cardColor.color = new Color32(254, 207, 159, 255);
-        } else if (tier == 3) {
+        }
+        else if (tier == 3)
+        {
             cardColor.color = new Color32(178, 254, 219, 255);
-        } else if (tier == 3) {
+        }
+        else if (tier == 3)
+        {
             cardColor.color = new Color32(223, 155, 253, 255);
-        } else if (tier == 3) {
+        }
+        else if (tier == 3)
+        {
             cardColor.color = new Color32(253, 157, 203, 255);
         }
 
@@ -85,8 +144,8 @@ public class Card : MonoBehaviour
 
     public virtual void ApplyCardEffects()
     {
-        
     }
+
     protected virtual void CardEffects()
     {
     }

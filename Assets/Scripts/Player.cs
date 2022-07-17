@@ -6,14 +6,14 @@ public class Player : MonoBehaviour
 {
     [SerializeField] public PlayerStatus status;
     [SerializeField] public ShieldList shields;
-    
+
     public bool turn = false;
-    
+
     [SerializeField] public Deck deck;
     [SerializeField] public HandManager hand;
 
     public int dieCount = 3;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public void playCards()
@@ -32,13 +31,13 @@ public class Player : MonoBehaviour
             card.ApplyCardEffects();
         }
     }
-    
+
     public int rollForCards()
     {
         int drawn = 0;
         for (int i = 0; i < dieCount; i++)
         {
-            int roll = Random.Range(0, 5);
+            int roll = Random.Range(1, 6);
             if (!hand.DrawCard(roll)) break;
             drawn += 1;
         }
