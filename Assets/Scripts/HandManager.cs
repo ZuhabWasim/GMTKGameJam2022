@@ -7,62 +7,33 @@ public class HandManager : MonoBehaviour
     public static int PLAY_SIZE = 3;
 
     public Deck deck;
-    [SerializeField] public List<Card> crafting = new();
-    [SerializeField] public List<Card> hand = new(HAND_SIZE);
-    [SerializeField] public List<Card> playing = new();
-
-
-    public bool moveCardtoCrafting(int cardIndex)
+    
+    [SerializeField] public CardStack crafting;
+    [SerializeField] public CardStack hand;
+    [SerializeField] public CardStack playing;
+    void Start()
     {
-        if (cardIndex >= HAND_SIZE) return false;
+        CardStack[] cardStacks = GetComponents<CardStack>();
 
-        var card = hand[cardIndex];
-
-        //crafting.Push(card);
-        crafting.Add(card);
-
-        hand.RemoveAt(cardIndex);
-
-        return true;
-    }
-
-    public bool moveCardtoPlaying(int cardIndex)
-    {
-        if (cardIndex >= HAND_SIZE) return false;
-        if (playing.Count == PLAY_SIZE) return false;
-
-        var card = hand[cardIndex];
-
-        //playing.Push(card);
-        playing.Add(card);
-
-        hand.RemoveAt(cardIndex);
-
-        return true;
-    }
-
-    public void returnCardFromCrafting()
-    {
-        //Card card = crafting.Pop();
-        var card = crafting[^1];
-        crafting.RemoveAt(crafting.Count - 1);
-
-        hand.Add(card);
-    }
-
-    public void returnCardFromPlaying()
-    {
-        /*Card card = playing.Pop();*/
-        var card = playing[^1];
-        playing.RemoveAt(playing.Count - 1);
-
-        hand.Add(card);
-    }
-
+        for (int i = 0; i < cardStacks.Length; i++)
+        {
+            if (cardStacks[i].dropZoneType == DropZoneType.HAND)
+            {
+                hand = cardStacks[i];
+            } else if (cardStacks[i].dropZoneType == DropZoneType.CRAFTING)
+            {
+                crafting = cardStacks[i];
+            } else if (cardStacks[i].dropZoneType == DropZoneType.PLAYING)
+            {
+                playing = cardStacks[i];
+            }
+        }
+    } 
+    
     public int getCraftableIndex()
     {
         var sum = 0;
-        foreach (var card in crafting) sum += deck.getDeckIndex(card);
+        foreach (Card card in crafting.stack) sum += deck.getDeckIndex(card);
 
         return sum;
     }
@@ -80,7 +51,7 @@ public class HandManager : MonoBehaviour
             else
                 DrawCard(index);
 
-            crafting.Clear();
+            crafting.clearStack();
             return true;
         }
 
@@ -89,10 +60,10 @@ public class HandManager : MonoBehaviour
 
     public bool DrawCard(int deckIndex)
     {
-        if (hand.Count == HAND_SIZE) return false;
+        if (hand.Size() == HAND_SIZE) return false;
         
         Card card = deck.GetCard(deckIndex);
-        hand.Add(card);
+        hand.addToStack(card);
         return true;
     }
 }

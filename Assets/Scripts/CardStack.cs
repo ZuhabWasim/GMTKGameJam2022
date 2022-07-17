@@ -6,6 +6,8 @@ using UnityEngine;
 [Serializable]
 public class CardStack : MonoBehaviour
 {
+    public DropZoneType dropZoneType;
+    
     public bool isLimited = false;
     public int stackLimit;
     
@@ -62,5 +64,15 @@ public class CardStack : MonoBehaviour
     public bool isFull()
     {
         return (isLimited && stack.Count >= stackLimit);
+    }
+
+    public int Size()
+    {
+        return stack.Count;
+    }
+
+    public void clearStack()
+    {
+        stack.Clear();
     }
 }

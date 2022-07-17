@@ -82,7 +82,11 @@ public class Card : MonoBehaviour
         txtTitle.text = name;
         txtDescription.text = description;
     }
-    
+
+    public virtual void ApplyCardEffects()
+    {
+        
+    }
     protected virtual void CardEffects()
     {
     }

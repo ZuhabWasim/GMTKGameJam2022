@@ -512,6 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a1cbd27fea63b43912ef4a8be7bbb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropZoneType: 0
   isLimited: 1
   stackLimit: 5
   stack: []
@@ -751,9 +752,76 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a1cbd27fea63b43912ef4a8be7bbb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropZoneType: 0
   isLimited: 1
   stackLimit: 3
   stack: []
+--- !u!1 &888607046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 888607049}
+  - component: {fileID: 888607048}
+  - component: {fileID: 888607047}
+  m_Layer: 0
+  m_Name: Player1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &888607047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888607046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc8be9b8a883d64ca7be8686399d0e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deck: {fileID: 0}
+  crafting: {fileID: 995800199}
+  hand: {fileID: 485431745}
+  playing: {fileID: 734964454}
+--- !u!114 &888607048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888607046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931229f4439f8254b98c6158e7d68ade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: {fileID: 0}
+  turn: 0
+  deck: {fileID: 0}
+  hand: {fileID: 0}
+  dieCount: 3
+--- !u!4 &888607049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888607046}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 545.03687, y: 280.59537, z: 2.4287457}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &986838504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1009,6 +1077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a1cbd27fea63b43912ef4a8be7bbb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropZoneType: 0
   isLimited: 0
   stackLimit: 0
   stack: []

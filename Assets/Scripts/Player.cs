@@ -25,6 +25,14 @@ public class Player : MonoBehaviour
         
     }
 
+    public void playCards()
+    {
+        foreach (Card card in hand.playing.stack)
+        {
+            card.ApplyCardEffects();
+        }
+    }
+    
     public int rollForCards()
     {
         int drawn = 0;
