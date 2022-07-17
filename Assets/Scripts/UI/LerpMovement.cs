@@ -10,30 +10,24 @@ public class LerpMovement : MonoBehaviour
     
     public GameObject LoadOutPos;
 
-    public float speed;
-    private float elapsedTime;
-
-    private bool isMoving;
-
-    
+    private float speed = 0.05f;
 
     private bool Toggle = false;
 
     // Update is called once per frame
     void Update()
     {
-        elapsedTime += Time.deltaTime;
-        float percentageComplete = elapsedTime / speed;
+        
 
         if (Toggle)
         {
             
-            LoadOutPos.transform.position = Vector3.Lerp(LoadOutPos.transform.position, TargetPos.transform.position, percentageComplete);
+            LoadOutPos.transform.position = Vector2.Lerp(LoadOutPos.transform.position, TargetPos.transform.position, speed);
 
         }
         else if (!Toggle)
         {
-            LoadOutPos.transform.position = Vector3.Lerp(LoadOutPos.transform.position, InitPos.transform.position, percentageComplete);
+            LoadOutPos.transform.position = Vector2.Lerp(LoadOutPos.transform.position, InitPos.transform.position, speed);
         }
     }
     
