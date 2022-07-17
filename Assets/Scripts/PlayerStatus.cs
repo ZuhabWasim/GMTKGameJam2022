@@ -14,6 +14,13 @@ public class PlayerStatus : MonoBehaviour
     private Dictionary<string, int> status = new Dictionary<string, int>();
 
 
+    public GameObject BaseHP_T;
+    public GameObject Shield1_T;
+    public GameObject Shield2_T;
+    public GameObject Shield3_T;
+
+
+
     void Start()
     {
         hp = maxHp;
@@ -28,6 +35,14 @@ public class PlayerStatus : MonoBehaviour
         status.Add("strength", 0);
         status.Add("speed", 0);
     }
+
+    void Update()
+    {
+        OnLoadStatusDisplay();
+
+    }
+
+
 
     public int GetHp() {
         return hp;
@@ -57,6 +72,7 @@ public class PlayerStatus : MonoBehaviour
         status[stat] += amount;
     }
 
+
     public void TakeDamage(int dam) {
         hp -= dam;
         if (hp <= 0) {
@@ -76,6 +92,26 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
-    private void Die() {}
+    private void Die() {
+        Debug.Log("PlayerDed");
+    }
+
+
+    //Tim Addition
+    void OnLoadStatusDisplay()
+    {
+        BaseHP_T.GetComponent<TMPro.TextMeshProUGUI>().text = hp + "/" + maxHp;
+        Shield1_T.GetComponent<TMPro.TextMeshProUGUI>().text = "";
+        Shield2_T.GetComponent<TMPro.TextMeshProUGUI>().text = "";
+        Shield3_T.GetComponent<TMPro.TextMeshProUGUI>().text = "";
+    }
+
+
+
+
+
+
+
+
 
 }
