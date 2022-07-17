@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private PlayerStatus status;
-    [SerializeField] private ShieldList shields;
+    [SerializeField] public PlayerStatus status;
+    [SerializeField] public ShieldList shields;
     
     public bool turn = false;
     
-    [SerializeField] private Deck deck;
-    [SerializeField] private HandManager hand;
+    [SerializeField] public Deck deck;
+    [SerializeField] public HandManager hand;
 
     public int dieCount = 3;
     
@@ -25,6 +25,14 @@ public class Player : MonoBehaviour
         
     }
 
+    public void playCards()
+    {
+        foreach (Card card in hand.playing.stack)
+        {
+            card.ApplyCardEffects();
+        }
+    }
+    
     public int rollForCards()
     {
         int drawn = 0;
