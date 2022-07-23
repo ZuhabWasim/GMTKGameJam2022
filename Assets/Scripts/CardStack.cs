@@ -45,6 +45,19 @@ public class CardStack : MonoBehaviour
 
         return false;
     }
+    
+    public bool canMoveToNewStack(CardStack newStack, int cardID)
+    {
+        for (int i = 0; i < stack.Count; i++)
+            if (stack[i].id == cardID)
+            {
+                if (!newStack.isFull())
+                {
+                    return true;
+                }
+            }
+        return false;
+    }
 
     public bool addToStack(Card card)
     {
