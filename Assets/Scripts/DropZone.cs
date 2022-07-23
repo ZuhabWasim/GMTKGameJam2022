@@ -16,11 +16,11 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     {
         // Debug.Log("OnPointerEnter");
         if (eventData.pointerDrag == null) return;
-        
+
         // Don't update the placeholder to show that it's not possible to place in the stack.
         if (!Droppable(eventData)) return;
-        
-        
+
+
         // Update the placeholder to go into different stacks.
         Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
 
@@ -48,7 +48,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     {
         Card card = eventData.pointerDrag.GetComponent<Card>();
         Draggable draggable = eventData.pointerDrag.GetComponent<Draggable>();
-        
+
         // Place the card on the new stack if it's possible.
         if (!Droppable(eventData)) return;
         draggable.sourceDropZone.cardStack.moveToNewStack(cardStack, card.id);
@@ -70,10 +70,9 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 
     bool Droppable(PointerEventData eventData)
     {
-        
         Card card = eventData.pointerDrag.GetComponent<Card>();
         Draggable draggable = eventData.pointerDrag.GetComponent<Draggable>();
-        
+
         // Cards can't be dropped in the same stack. Don't let it drop.
         if (draggable.sourceDropZone.dropZonetype == dropZonetype) return false;
 
