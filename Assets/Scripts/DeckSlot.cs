@@ -47,9 +47,20 @@ public class DeckSlot : MonoBehaviour
 
     public void UpdateDeckSlot(int id)
     {
+        // Updates the deck along with the slot (used when researching).
         card = Card.GetCardFromBank(id);
         cardName.text = card.name;
         
+        Deck deck = GameObject.FindGameObjectWithTag("PlayerOne").GetComponent<Deck>();
+        deck.SetCard(deckSlotID - 1, card);
+        
+    }
+    
+    public void SetDeckSlot(int id)
+    {
+        // Sets the information without updating the deck itself.
+        card = Card.GetCardFromBank(id);
+        cardName.text = card.name;
     }
 
     public void OnPointerEnter()

@@ -37,34 +37,34 @@ public class HandManager : MonoBehaviour
 
     public int getCraftableIndex()
     {
-        var sum = 0;
-        foreach (Card card in crafting.stack) sum += deck.getDeckIndex(card);
+        // zero-based
 
-        return sum;
+        var sum = 0;
+        foreach (Card card in crafting.stack)
+        {
+            sum += deck.getDeckIndex(card) + 1;
+        }
+
+        return sum - 1;
     }
 
     public bool CraftCard()
     {
-        var index = getCraftableIndex(); // The sum of all the crafting cards.
-
-        if (researching.Size() > 0)
-        {
-            return false;
-        }
+        if (crafting.isEmpty()) return false;
         
-        if (deck.isCraftableCard(index))
+        var index = getCraftableIndex(); // The sum of all the crafting cards 0-based.
+        
+        if (isResearching) return false;
+        
+        if (deck.isCraftableCard(index)) // 0-based.
         {
             if (index == Deck.RESEARCH_CARD_INDEX)
             {
                 Research();
-                // TODO: Researching functionality.
-                // Generate a random card of any tier but the research tier
-                // Force player to select where they want the new card to be
-                //DrawCard(index);
             }
             else
             {
-                DrawCard(index);
+                DrawCard(index, generate:true);
             }
 
             crafting.clearStack();
@@ -76,9 +76,10 @@ public class HandManager : MonoBehaviour
 
     public bool DrawCard(int deckIndex, bool generate = false)
     {
+        // 0-based
         if (hand.Size() == HAND_SIZE) return false;
 
-        Card card = deck.GetCard(deckIndex - 1);
+        Card card = deck.GetCard(deckIndex);
         hand.addToStack(card, generate);
         return true;
     }
@@ -86,13 +87,11 @@ public class HandManager : MonoBehaviour
     public void Research()
     {
         // Generate a random tier and random card (that's not the research tier).
-        int tierID = Tier.TIER_IDS[Random.Range(0, Tier.TIER_IDS.Length)];
+        int roll = Random.Range(0, Tier.tierIDs.Length);
+        int tierID = Tier.tierIDs[roll];
         Card card = deck.researchCardFromTier(tierID);
         
-        researching.addToStack(card);
-
-        isResearching = true;
-
+        researching.addToStack(card, generate:true);
     }
 
     public void ClearStacks()
@@ -101,5 +100,10 @@ public class HandManager : MonoBehaviour
         crafting.clearStack();
         playing.clearStack();
         researching.clearStack();
+    }
+
+    void Update()
+    {
+        isResearching = !researching.isEmpty();
     }
 }

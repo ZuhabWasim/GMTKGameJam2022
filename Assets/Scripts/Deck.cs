@@ -17,7 +17,7 @@ public class Deck : MonoBehaviour
         InitializeTiers();
         InitializeDeck();
         PickStartingCards();
-        UpdateDeckSlots();
+        InitializeDeckSlots();
     }
 
     private void PickStartingCards()
@@ -37,7 +37,7 @@ public class Deck : MonoBehaviour
         
         // Get the research card.
         _deck[RESEARCH_CARD_INDEX] = _tiers[RESEARCH_TIER_INDEX].GetRandomCard(); // Research Card
-        
+
     }
 
     private void InitializeDeck()
@@ -105,17 +105,17 @@ public class Deck : MonoBehaviour
 
     public Card researchCardFromTier(int tierID)
     {
-        return _tiers[tierID].GetRandomCardWithoutReplacement();
+        return _tiers[tierID].GetRandomCardWithReplacement();
     }
 
-    public void UpdateDeckSlots()
+    public void InitializeDeckSlots()
     {
         foreach (DeckSlot deckSlot in GetComponentsInChildren<DeckSlot>())
         {
             Card card = _deck[deckSlot.deckSlotID - 1];
             if (card != null)
             {
-                deckSlot.UpdateDeckSlot(card.id);
+                deckSlot.SetDeckSlot(card.id);
             }
         }
     }

@@ -9,6 +9,7 @@ TagManager:
   - Playing
   - Researching
   - Hand
+  - PlayerOne
   layers:
   - Default
   - TransparentFX

@@ -57,7 +57,9 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         {
             DeckSlot deckSlot = GetComponent<DeckSlot>();
             deckSlot.UpdateDeckSlot(card.id);
+            draggable.sourceDropZone.cardStack.removeFromStack(card);
 
+            // TODO: Probably don't need this other draggable
             Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
 
             if (d != null)
@@ -75,6 +77,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 
             draggable.UpdateDropZone(this);
             
+            // TODO: Probably don't need this other draggable
             Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
 
             if (d != null)

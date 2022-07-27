@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class Tier
 {
-    public static int[] TIER_IDS = new int[] {0, 1, 2, 4, 5};
+    public static int[] tierIDs = new int[]{1, 2}; // new int[]{0, 1, 2, 4, 5}; (while the other cards are still being developed)
     public static int RESEARCH_TIER = 3;
 
     public int start;
@@ -22,7 +22,7 @@ public class Tier
 
     public Tier(int tierStart, int tierEnd, int tierRarity, string tierName = null)
     {
-        start = tierStart - 1;
+        start = tierStart - 1; // Range is 0-based and end is exclusive.
         end = tierEnd;
         size = end - start;
         rarity = tierRarity;
@@ -66,6 +66,14 @@ public class Tier
 
         Card card = cardChoices[roll];
         cardChoices.RemoveAt(roll);
+        return card;
+    }
+    
+    public Card GetRandomCardWithReplacement()
+    {
+        int roll = Random.Range(0, cardChoices.Count - 1);
+
+        Card card = cardChoices[roll];
         return card;
     }
 

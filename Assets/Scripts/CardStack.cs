@@ -93,6 +93,11 @@ public class CardStack : MonoBehaviour
         return (isLimited && stack.Count >= stackLimit);
     }
 
+    public bool isEmpty()
+    {
+        return stack.Count == 0;
+    }
+
     public int Size()
     {
         return stack.Count;
