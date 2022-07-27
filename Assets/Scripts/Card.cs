@@ -68,6 +68,33 @@ public class Tier
         cardChoices.RemoveAt(roll);
         return card;
     }
+
+    public static Color32 GetTierColor(int tier)
+    {
+        switch(tier) 
+        {
+            case 0:
+                return new Color32(159, 227, 254, 255);
+            
+            case 1:
+                return new Color32(247, 252, 168, 255);
+            
+            case 2:
+                return new Color32(254, 207, 159, 255);
+            
+            case 3:
+                return new Color32(178, 254, 219, 255);
+            
+            case 4:
+                return new Color32(223, 155, 253, 255);
+            
+            case 5:
+                return new Color32(253, 157, 203, 255);
+            
+            default:
+                return new Color32(180, 180, 180, 255);
+        }
+    }
 }
 
 [Serializable]
@@ -113,35 +140,27 @@ public class Card : MonoBehaviour
     void Start()
     {
         //Assign card color based on tier
-        if (tier == 0)
-        {
-            cardColor.color = new Color32(159, 227, 254, 255);
-        }
-        else if (tier == 1)
-        {
-            cardColor.color = new Color32(247, 252, 168, 255);
-        }
-        else if (tier == 2)
-        {
-            cardColor.color = new Color32(254, 207, 159, 255);
-        }
-        else if (tier == 3)
-        {
-            cardColor.color = new Color32(178, 254, 219, 255);
-        }
-        else if (tier == 3)
-        {
-            cardColor.color = new Color32(223, 155, 253, 255);
-        }
-        else if (tier == 3)
-        {
-            cardColor.color = new Color32(253, 157, 203, 255);
-        }
-
+        cardColor.color = Tier.GetTierColor(tier);
         txtTitle.text = name;
         txtDescription.text = description;
     }
 
+    public static Card GetCardFromBank(int id)
+    {
+        GameObject cardBank = GameObject.FindGameObjectWithTag("CardBank");
+
+        foreach (Transform child in cardBank.transform)
+        {
+            Card card = child.GetComponent<Card>();
+            if (card.id == id)
+            {
+                return card;
+            }
+        }
+
+        return null;
+    }
+    
     public virtual void ApplyCardEffects()
     {
     }

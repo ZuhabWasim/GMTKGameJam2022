@@ -79,7 +79,7 @@ public class Deck : MonoBehaviour
     }
 
     // To access the Tier (range of cards) a new card belongs to.
-    public Tier? getCardTier(Card card)
+    public Tier getCardTier(Card card)
     {
         foreach (var tier in _tiers)
             if (tier.rarity == card.tier)

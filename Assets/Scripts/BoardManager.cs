@@ -9,6 +9,7 @@ public enum DropZoneType
     PLAYING,
     HAND,
     RESEARCHING,
+    DECK_SLOT
 }
 
 public class BoardManager : MonoBehaviour

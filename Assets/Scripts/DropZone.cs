@@ -51,21 +51,38 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 
         // Place the card on the new stack if it's possible.
         if (!Droppable(eventData)) return;
-        draggable.sourceDropZone.cardStack.moveToNewStack(cardStack, card.id);
-
-        Debug.Log("Card " + card.name + " (" + card.id + ") was dropped from " + draggable.sourceDropZone.dropZonetype +
-                  " to " + dropZonetype);
-
-        draggable.UpdateDropZone(this);
-
-        /*Debug.Log("Updating card " + card.name + " (" + card.id + ") to belong in " + dropZonetype);*/
-
-        Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
-
-        if (d != null)
+        
+        // Deck slots will have the card "used up" to be inserted into the slot.
+        if (dropZonetype == DropZoneType.DECK_SLOT)
         {
-            d.parentToReturnTo = this.transform;
+            DeckSlot deckSlot = GetComponent<DeckSlot>();
+            deckSlot.UpdateDeckSlot(card.id);
+
+            Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
+
+            if (d != null)
+            {
+                Destroy(d.gameObject);
+            }
         }
+        // Otherwise we put cards in the d
+        else
+        {
+            draggable.sourceDropZone.cardStack.moveToNewStack(cardStack, card.id);
+
+            Debug.Log("Card " + card.name + " (" + card.id + ") was dropped from " + draggable.sourceDropZone.dropZonetype +
+                      " to " + dropZonetype);
+
+            draggable.UpdateDropZone(this);
+            
+            Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
+
+            if (d != null)
+            {
+                d.parentToReturnTo = this.transform;
+            }
+        }
+
     }
 
     bool Droppable(PointerEventData eventData)
@@ -81,8 +98,15 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 
         // If the deny list has drop zones, and the Card's source is in it. Don't let it drop.
         if (deniedDropZones.Count != 0 && deniedDropZones.Contains(draggable.sourceDropZone)) return false;
-
-        // If the card stack is full or any other reason, don't allow placing.
+        
+        // Checks whether the card can be placed in that specified deck slot.
+        if (dropZonetype == DropZoneType.DECK_SLOT)
+        {
+            DeckSlot deckSlot = GetComponent<DeckSlot>();
+            return deckSlot.deckSlotTier == card.tier;
+        }
+        
+        // If the card has a stack and it's full or any other reason, don't allow placing.
         if (!draggable.sourceDropZone.cardStack.canMoveToNewStack(cardStack, card.id)) return false;
 
         return true;
@@ -93,13 +117,16 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     {
         cardStack = GetComponent<CardStack>();
 
-        foreach (Transform child in transform)
+        if (dropZonetype != DropZoneType.DECK_SLOT)
         {
-            Card card = child.GetComponent<Card>();
-            cardStack.addToStack(card);
+            foreach (Transform child in transform)
+            {
+                Card card = child.GetComponent<Card>();
+                cardStack.addToStack(card);
+            }
         }
     }
-
+    
     // Update is called once per frame
     void Update()
     {
