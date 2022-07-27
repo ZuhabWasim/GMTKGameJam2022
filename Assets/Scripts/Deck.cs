@@ -34,10 +34,9 @@ public class Deck : MonoBehaviour
                 }
             }
         }
-        
+
         // Get the research card.
         _deck[RESEARCH_CARD_INDEX] = _tiers[RESEARCH_TIER_INDEX].GetRandomCard(); // Research Card
-
     }
 
     private void InitializeDeck()
@@ -50,10 +49,10 @@ public class Deck : MonoBehaviour
         _tiers.Add(new Tier(1, 1, 0, "Default"));
         _tiers.Add(new Tier(2, 4, 1, "Rare"));
         _tiers.Add(new Tier(5, 6, 2, "Epic"));
-        
+
         // Research Tier (make sure to update the RESEARCH_TIER constant.
         _tiers.Add(new Tier(7, 7, 3, "Research"));
-        
+
         _tiers.Add(new Tier(8, 10, 4, "Unique"));
         _tiers.Add(new Tier(11, 12, 5, "Legendary"));
     }

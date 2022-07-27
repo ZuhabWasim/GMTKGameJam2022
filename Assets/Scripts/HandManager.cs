@@ -7,7 +7,7 @@ public class HandManager : MonoBehaviour
 {
     public static int HAND_SIZE = 5;
     public static int PLAY_SIZE = 3;
-    
+
     // TODO: See if i should replace each individual card stack with a list of lists.
     public static int HAND = 0;
     public static int CRAFTING = 1;
@@ -16,7 +16,7 @@ public class HandManager : MonoBehaviour
 
     public Deck deck;
     public bool isResearching = false;
-    
+
     [SerializeField] public CardStack crafting;
     [SerializeField] public CardStack hand;
     [SerializeField] public CardStack playing;
@@ -51,11 +51,11 @@ public class HandManager : MonoBehaviour
     public bool CraftCard()
     {
         if (crafting.isEmpty()) return false;
-        
+
         var index = getCraftableIndex(); // The sum of all the crafting cards 0-based.
-        
+
         if (isResearching) return false;
-        
+
         if (deck.isCraftableCard(index)) // 0-based.
         {
             if (index == Deck.RESEARCH_CARD_INDEX)
@@ -64,7 +64,7 @@ public class HandManager : MonoBehaviour
             }
             else
             {
-                DrawCard(index, generate:true);
+                DrawCard(index, generate: true);
             }
 
             crafting.clearStack();
@@ -90,8 +90,8 @@ public class HandManager : MonoBehaviour
         int roll = Random.Range(0, Tier.tierIDs.Length);
         int tierID = Tier.tierIDs[roll];
         Card card = deck.researchCardFromTier(tierID);
-        
-        researching.addToStack(card, generate:true);
+
+        researching.addToStack(card, generate: true);
     }
 
     public void ClearStacks()

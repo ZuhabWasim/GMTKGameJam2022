@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public int dieCount = 3;
     public int MIN_ROLL = 1;
     public int MAX_ROLL = 6;
-    
+
     // Start is called before the first frame update
     void Start()
     {

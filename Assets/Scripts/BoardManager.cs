@@ -17,20 +17,19 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Player player1;
     [SerializeField] private Player player2;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
         // By default set player1 to go first
         player1.turn = true;
-        
+
         //UpdateBoard();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public Player getPlayerTurn()
@@ -42,7 +41,7 @@ public class BoardManager : MonoBehaviour
     {
         getPlayerTurn().rollForCards();
     }
-    
+
     public void CraftCards()
     {
         getPlayerTurn().hand.CraftCard();
@@ -52,10 +51,10 @@ public class BoardManager : MonoBehaviour
     {
         getPlayerTurn().WipeBoard();
     }
+
     public void UpdateBoard()
     {
         Player player = getPlayerTurn();
-        
     }
 
     public void UpdateCardStack(CardStack cardStack, string cardStackTag)
@@ -66,10 +65,9 @@ public class BoardManager : MonoBehaviour
         {
             // If this Card isn't in the list
         }
+
         if (cardStackObj.transform.childCount == cardStack.Size())
         {
-            
         }
-        
     }
 }

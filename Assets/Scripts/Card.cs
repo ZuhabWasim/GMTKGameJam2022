@@ -8,7 +8,9 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class Tier
 {
-    public static int[] tierIDs = new int[]{1, 2}; // new int[]{0, 1, 2, 4, 5}; (while the other cards are still being developed)
+    public static int[]
+        tierIDs = new int[] {1, 2}; // new int[]{0, 1, 2, 4, 5}; (while the other cards are still being developed)
+
     public static int RESEARCH_TIER = 3;
 
     public int start;
@@ -68,7 +70,7 @@ public class Tier
         cardChoices.RemoveAt(roll);
         return card;
     }
-    
+
     public Card GetRandomCardWithReplacement()
     {
         int roll = Random.Range(0, cardChoices.Count - 1);
@@ -79,26 +81,26 @@ public class Tier
 
     public static Color32 GetTierColor(int tier)
     {
-        switch(tier) 
+        switch (tier)
         {
             case 0:
                 return new Color32(159, 227, 254, 255);
-            
+
             case 1:
                 return new Color32(247, 252, 168, 255);
-            
+
             case 2:
                 return new Color32(254, 207, 159, 255);
-            
+
             case 3:
                 return new Color32(178, 254, 219, 255);
-            
+
             case 4:
                 return new Color32(223, 155, 253, 255);
-            
+
             case 5:
                 return new Color32(253, 157, 203, 255);
-            
+
             default:
                 return new Color32(180, 180, 180, 255);
         }
@@ -168,7 +170,7 @@ public class Card : MonoBehaviour
 
         return null;
     }
-    
+
     public virtual void ApplyCardEffects()
     {
     }

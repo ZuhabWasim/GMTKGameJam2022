@@ -24,6 +24,7 @@ public class CardStack : MonoBehaviour
         {
             dropZoneType = dropZone.dropZonetype;
         }
+
         clearStack();
     }
 
@@ -71,6 +72,7 @@ public class CardStack : MonoBehaviour
         {
             Instantiate(Card.GetCardFromBank(card.id).gameObject, this.transform);
         }
+
         return true;
     }
 
@@ -85,6 +87,7 @@ public class CardStack : MonoBehaviour
                 return true;
             }
         }
+
         return false;
     }
 
@@ -107,7 +110,7 @@ public class CardStack : MonoBehaviour
     {
         // Representation clearing.
         stack.Clear();
-        
+
         // Game objects clearing.
         foreach (Transform child in transform)
         {
