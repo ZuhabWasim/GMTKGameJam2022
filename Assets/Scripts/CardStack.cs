@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using Object = System.Object;
 
 [Serializable]
 public class CardStack : MonoBehaviour
@@ -22,6 +24,7 @@ public class CardStack : MonoBehaviour
         {
             dropZoneType = dropZone.dropZonetype;
         }
+        clearStack();
     }
 
     // Update is called once per frame
@@ -60,22 +63,28 @@ public class CardStack : MonoBehaviour
         return false;
     }
 
-    public bool addToStack(Card card)
+    public bool addToStack(Card card, bool generate = false)
     {
         if (isFull()) return false;
         stack.Add(card);
+        if (generate)
+        {
+            Instantiate(Card.GetCardFromBank(card.id).gameObject, this.transform);
+        }
         return true;
     }
 
     public bool removeFromStack(Card card)
     {
+        // Representation removal.
         for (int i = 0; i < stack.Count; i++)
+        {
             if (stack[i].id == card.id)
             {
                 stack.RemoveAt(i);
                 return true;
             }
-
+        }
         return false;
     }
 
@@ -91,6 +100,13 @@ public class CardStack : MonoBehaviour
 
     public void clearStack()
     {
+        // Representation clearing.
         stack.Clear();
+        
+        // Game objects clearing.
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] public HandManager hand;
 
     public int dieCount = 3;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -37,11 +37,16 @@ public class Player : MonoBehaviour
         int drawn = 0;
         for (int i = 0; i < dieCount; i++)
         {
-            int roll = Random.Range(1, 6);
-            if (!hand.DrawCard(roll)) break;
+            int roll = Random.Range(1, 7); // D6 Roll
+            if (!hand.DrawCard(roll, true)) break;
             drawn += 1;
         }
 
         return drawn;
+    }
+
+    public void WipeBoard()
+    {
+        hand.ClearStacks();
     }
 }

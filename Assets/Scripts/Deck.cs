@@ -17,6 +17,7 @@ public class Deck : MonoBehaviour
         InitializeTiers();
         InitializeDeck();
         PickStartingCards();
+        UpdateDeckSlots();
     }
 
     private void PickStartingCards()
@@ -105,5 +106,17 @@ public class Deck : MonoBehaviour
     public Card researchCardFromTier(int tierID)
     {
         return _tiers[tierID].GetRandomCardWithoutReplacement();
+    }
+
+    public void UpdateDeckSlots()
+    {
+        foreach (DeckSlot deckSlot in GetComponentsInChildren<DeckSlot>())
+        {
+            Card card = _deck[deckSlot.deckSlotID - 1];
+            if (card != null)
+            {
+                deckSlot.UpdateDeckSlot(card.id);
+            }
+        }
     }
 }

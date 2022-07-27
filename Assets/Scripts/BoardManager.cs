@@ -48,6 +48,10 @@ public class BoardManager : MonoBehaviour
         getPlayerTurn().hand.CraftCard();
     }
 
+    public void WipeBoard()
+    {
+        getPlayerTurn().WipeBoard();
+    }
     public void UpdateBoard()
     {
         Player player = getPlayerTurn();

@@ -74,12 +74,12 @@ public class HandManager : MonoBehaviour
         return false;
     }
 
-    public bool DrawCard(int deckIndex)
+    public bool DrawCard(int deckIndex, bool generate = false)
     {
         if (hand.Size() == HAND_SIZE) return false;
 
-        Card card = deck.GetCard(deckIndex);
-        hand.addToStack(card);
+        Card card = deck.GetCard(deckIndex - 1);
+        hand.addToStack(card, generate);
         return true;
     }
 
@@ -93,5 +93,13 @@ public class HandManager : MonoBehaviour
 
         isResearching = true;
 
+    }
+
+    public void ClearStacks()
+    {
+        hand.clearStack();
+        crafting.clearStack();
+        playing.clearStack();
+        researching.clearStack();
     }
 }

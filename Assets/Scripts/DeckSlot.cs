@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class DeckSlot : MonoBehaviour
 {
+    private bool _mouseOver = false;
+    
     public int deckSlotID;
     public int deckSlotTier;
     
@@ -35,27 +37,41 @@ public class DeckSlot : MonoBehaviour
 
         GetComponent<Image>().color = Tier.GetTierColor(deckSlotTier);
 
+        if (card == null)
+        {
+            cardName.text = "";
+            cardDesc.text = "";
+        }
+
     }
 
     public void UpdateDeckSlot(int id)
     {
         card = Card.GetCardFromBank(id);
         cardName.text = card.name;
-        cardDesc.text = card.description;
+        
     }
 
     public void OnPointerEnter()
     {
-        cardDesc.text = (card != null) ? card.description : "Test";
+        _mouseOver = true;
     }
 
     public void OnPointerExit()
     {
-        cardDesc.text = "";
+        _mouseOver = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (_mouseOver && card != null)
+        {
+            cardDesc.text = card.description;
+        }
+        else
+        {
+            cardDesc.text = "";
+        }
     }
 }
