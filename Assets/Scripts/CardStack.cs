@@ -9,10 +9,11 @@ using Object = System.Object;
 public class CardStack : MonoBehaviour
 {
     public DropZoneType dropZoneType;
-
+    public GameObject stackObj;
+    
     public bool isLimited = false;
     public int stackLimit;
-
+    
     // These are lists and not stacks because stacks don't show up in the inspector smh
     [SerializeField] public List<Card> stack = new();
 
@@ -22,13 +23,20 @@ public class CardStack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DropZone dropZone = GetComponent<DropZone>();
-        if (dropZone != null)
+        if (stackObj == null)
+        {
+            Debug.LogWarning("No stack object specified, using this stack's object instead.");
+            stackObj = this.gameObject;
+        }
+        
+        // Note: Make sure the dropzone types match on the player and stack objects.
+        /*DropZone dropZone = stackObj.GetComponent<DropZone>();*/
+        /*if (dropZone != null)
         {
             dropZoneType = dropZone.dropZonetype;
-        }
-
-        clearStack();
+        }*/
+        
+        //clearStack();
     }
 
     // Update is called once per frame
@@ -74,7 +82,7 @@ public class CardStack : MonoBehaviour
         stack.Add(card);
         if (generate)
         {
-            Instantiate(Card.GetCardFromBank(card.id).gameObject, this.transform);
+            Instantiate(Card.GetCardFromBank(card.id).gameObject, stackObj.transform);
         }
         StackChanged?.Invoke(card);
 
@@ -119,11 +127,35 @@ public class CardStack : MonoBehaviour
         stack.Clear();
 
         // Game objects clearing.
-        foreach (Transform child in transform)
+        foreach (Transform child in stackObj.transform)
         {
             Destroy(child.gameObject);
         }
         
         StackChanged?.Invoke(null);
+    }
+    
+    public void ClearStackObjects()
+    {
+        // Game objects clearing.
+        foreach (Transform child in stackObj.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        StackChanged?.Invoke(null);
+    }
+
+    public void AddAllStackObjects()
+    {
+        // Assume that all objects have been cleared (so no artifacts remain).
+        foreach (Card card in stack)
+        {
+            Instantiate(Card.GetCardFromBank(card.id).gameObject, stackObj.transform);
+        }
+    }
+
+    public void SetStack(List<Card> newStack)
+    {
+        this.stack = newStack;
     }
 }

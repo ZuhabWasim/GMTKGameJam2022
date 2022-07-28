@@ -35,6 +35,11 @@ public class HandManager : MonoBehaviour
         }
     }
 
+    public void Load()
+    {
+        
+    }
+    
     public int getCraftableIndex()
     {
         // zero-based

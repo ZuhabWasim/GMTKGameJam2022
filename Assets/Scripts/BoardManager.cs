@@ -16,15 +16,13 @@ public class BoardManager : MonoBehaviour
 {
     [SerializeField] private Player player1;
     [SerializeField] private Player player2;
-
-
+    
     // Start is called before the first frame update
     void Start()
     {
         // By default set player1 to go first
         player1.turn = true;
-
-        //UpdateBoard();
+        UpdateBoardTurn();
     }
 
     // Update is called once per frame
@@ -35,6 +33,13 @@ public class BoardManager : MonoBehaviour
     public Player getPlayerTurn()
     {
         return player1.turn ? player1 : player2;
+    }
+
+    public void ChangePlayerTurn()
+    {
+        player1.turn = !player1.turn;
+        player2.turn = !player2.turn;
+        UpdateBoardTurn();
     }
 
     public void DrawCards()
@@ -52,22 +57,21 @@ public class BoardManager : MonoBehaviour
         getPlayerTurn().WipeBoard();
     }
 
-    public void UpdateBoard()
+    public void UpdateBoardTurn()
     {
         Player player = getPlayerTurn();
-    }
-
-    public void UpdateCardStack(CardStack cardStack, string cardStackTag)
-    {
-        GameObject cardStackObj = GameObject.FindGameObjectWithTag(cardStackTag);
-
-        foreach (Card card in cardStack.stack)
+        player.LoadPlayer();
+        // Update all drop zones objects (hard stack, craft stack) to reflect this player's stacks
+        foreach (DropZone dropZone in 
+                 GameObject.FindGameObjectWithTag("CardStacks").GetComponentsInChildren<DropZone>())
         {
-            // If this Card isn't in the list
+            dropZone.LoadPlayerStacks();
         }
-
-        if (cardStackObj.transform.childCount == cardStack.Size())
+        // Update all display components to update on this new player's stack changes.
+        foreach (CardStackDisplay cardStackDisplay in 
+                 GameObject.FindGameObjectWithTag("CardStacks").GetComponentsInChildren<CardStackDisplay>())
         {
+            cardStackDisplay.LoadCardStackLinks();
         }
     }
 }

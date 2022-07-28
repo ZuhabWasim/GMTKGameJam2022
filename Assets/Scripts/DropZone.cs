@@ -118,16 +118,40 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     // Start is called before the first frame update
     void Start()
     {
-        cardStack = GetComponent<CardStack>();
+        /*LoadPlayerStacks();*/
+    }
 
-        if (dropZonetype != DropZoneType.DECK_SLOT)
+    public void LoadPlayerStacks()
+    {
+        if (dropZonetype == DropZoneType.DECK_SLOT) return;
+        
+        // Assign the card stack with which ever player's turn it is
+        cardStack = null;
+        Player player = GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>().getPlayerTurn();
+        //Player player = GameObject.FindGameObjectWithTag(PlayerTag.PlayerOne.ToString()).GetComponent<Player>();//GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>().getPlayerTurn();
+        foreach (CardStack playerCardStack in player.GetComponentsInChildren<CardStack>())
         {
-            foreach (Transform child in transform)
+            if (playerCardStack.dropZoneType == this.dropZonetype)
             {
-                Card card = child.GetComponent<Card>();
-                cardStack.addToStack(card);
+                cardStack = playerCardStack;
             }
         }
+
+        // Remove all of the cards from the previous player
+        cardStack.ClearStackObjects();
+        
+        // and put in the next players cards from their stacks.
+        cardStack.AddAllStackObjects();
+        /*foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }*/
+        /*// Adds to the stack any card in the dropzone already.
+        foreach (Transform child in transform)
+        {
+            Card card = child.GetComponent<Card>();
+            cardStack.addToStack(card);
+        }*/
     }
 
     // Update is called once per frame

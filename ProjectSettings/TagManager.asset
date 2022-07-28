@@ -11,6 +11,9 @@ TagManager:
   - Hand
   - PlayerOne
   - BoardManager
+  - DeckSlots
+  - CardStacks
+  - PlayerTwo
   layers:
   - Default
   - TransparentFX

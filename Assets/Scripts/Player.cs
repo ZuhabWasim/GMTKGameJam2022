@@ -2,12 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerTag
+{
+    PlayerOne,
+    PlayerTwo
+}
+
 public class Player : MonoBehaviour
 {
     [SerializeField] public PlayerStatus status;
     [SerializeField] public ShieldList shields;
-
+    
     public bool turn = false;
+    public PlayerTag playerTag;
+    public string playerName = "";
 
     [SerializeField] public Deck deck;
     [SerializeField] public HandManager hand;
@@ -19,6 +27,10 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (playerName == "")
+        {
+            playerName = playerTag.ToString();
+        }
     }
 
     // Update is called once per frame
@@ -26,6 +38,12 @@ public class Player : MonoBehaviour
     {
     }
 
+    public void LoadPlayer()
+    {
+        deck.Load();
+        /*hand.Load(); */// Note that all cardstacks are tied to each player and won't be changed (just shown)
+    }
+    
     public void playCards()
     {
         foreach (Card card in hand.playing.stack)

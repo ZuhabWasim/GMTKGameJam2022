@@ -17,6 +17,10 @@ public class Deck : MonoBehaviour
         InitializeTiers();
         InitializeDeck();
         PickStartingCards();
+    }
+
+    public void Load()
+    {
         InitializeDeckSlots();
     }
 
@@ -109,7 +113,7 @@ public class Deck : MonoBehaviour
 
     public void InitializeDeckSlots()
     {
-        foreach (DeckSlot deckSlot in GetComponentsInChildren<DeckSlot>())
+        foreach (DeckSlot deckSlot in GameObject.FindGameObjectWithTag("DeckSlots").GetComponentsInChildren<DeckSlot>())
         {
             Card card = _deck[deckSlot.deckSlotID - 1];
             if (card != null)

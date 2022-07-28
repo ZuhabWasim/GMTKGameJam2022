@@ -15,6 +15,7 @@ public enum CounterType
 public class CardStackDisplay : MonoBehaviour
 {
     public CardStack cardStack;
+    public DropZoneType dropZonetype;
     
     public TextMeshProUGUI cardCounter;
     public TextMeshProUGUI cardMax;
@@ -25,14 +26,29 @@ public class CardStackDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //LoadCardStackLinks();
+    }
+
+    public void LoadCardStackLinks()
+    {
+        // Assign the card stack with which ever player's turn it is
+        cardStack = null;
+        Player player = GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>().getPlayerTurn();
+        //Player player = GameObject.FindGameObjectWithTag(PlayerTag.PlayerOne.ToString()).GetComponent<Player>();//GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>().getPlayerTurn();
+        foreach (CardStack playerCardStack in player.GetComponentsInChildren<CardStack>())
+        {
+            if (playerCardStack.dropZoneType == this.dropZonetype)
+            {
+                cardStack = playerCardStack;
+            }
+        }
         if (cardStack == null)
         {
             Debug.LogError("No card stack defined in " + this.gameObject.name);
             return;
         }
-        
-        cardStack.StackChanged += OnStackChanged;
+
+        cardStack.StackChanged += OnStackChanged; // TODO: might cause issues with added subscribing.
         
         if (cardCounter != null)
         {
@@ -43,8 +59,10 @@ public class CardStackDisplay : MonoBehaviour
         {
             cardMax.text = "/" + cardStack.stackLimit;
         }
+        
+        OnStackChanged(null);
     }
-
+    
     void OnStackChanged(Card card)
     {
         switch (counterType)
