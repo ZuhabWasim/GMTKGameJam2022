@@ -10,6 +10,7 @@ TagManager:
   - Researching
   - Hand
   - PlayerOne
+  - BoardManager
   layers:
   - Default
   - TransparentFX

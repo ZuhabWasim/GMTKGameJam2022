@@ -16,6 +16,9 @@ public class CardStack : MonoBehaviour
     // These are lists and not stacks because stacks don't show up in the inspector smh
     [SerializeField] public List<Card> stack = new();
 
+    public delegate void OnStackChanged(Card card);
+    public event OnStackChanged StackChanged;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,8 +44,9 @@ public class CardStack : MonoBehaviour
                 if (!newStack.isFull())
                 {
                     Card temp = stack[i];
-                    newStack.stack.Add(temp);
+                    newStack.addToStack(temp);
                     stack.RemoveAt(i);
+                    StackChanged?.Invoke(temp);
                     return true;
                 }
             }
@@ -72,6 +76,7 @@ public class CardStack : MonoBehaviour
         {
             Instantiate(Card.GetCardFromBank(card.id).gameObject, this.transform);
         }
+        StackChanged?.Invoke(card);
 
         return true;
     }
@@ -83,7 +88,9 @@ public class CardStack : MonoBehaviour
         {
             if (stack[i].id == card.id)
             {
+                Card temp = stack[i];
                 stack.RemoveAt(i);
+                StackChanged?.Invoke(temp);
                 return true;
             }
         }
@@ -116,5 +123,7 @@ public class CardStack : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        
+        StackChanged?.Invoke(null);
     }
 }
