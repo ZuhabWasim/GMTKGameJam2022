@@ -83,7 +83,7 @@ public class Deck : MonoBehaviour
     }
 
     // To access the Tier (range of cards) a new card belongs to.
-    public Tier getCardTier(Card card)
+    public Tier GetCardTier(Card card)
     {
         foreach (var tier in _tiers)
             if (tier.rarity == card.tier)
@@ -91,7 +91,7 @@ public class Deck : MonoBehaviour
         return null;
     }
 
-    public int getDeckIndex(Card card)
+    public int GetDeckIndex(Card card)
     {
         for (var i = 0; i < DECK_SIZE; i++)
             if (_deck[i] != null && _deck[i].id == card.id)
@@ -101,18 +101,19 @@ public class Deck : MonoBehaviour
     }
 
     // Whether the player can craft a card in the sum they'd like.
-    public bool isCraftableCard(int sum)
+    public bool IsCraftableCard(int sum)
     {
         return _deck[sum] != null;
     }
 
-    public Card researchCardFromTier(int tierID)
+    public Card ResearchCardFromTier(int tierID)
     {
         return _tiers[tierID].GetRandomCardWithReplacement();
     }
 
     public void InitializeDeckSlots()
     {
+        // Update all the deck slots to reflect the player's current deck.
         foreach (DeckSlot deckSlot in GameObject.FindGameObjectWithTag("DeckSlots").GetComponentsInChildren<DeckSlot>())
         {
             Card card = _deck[deckSlot.deckSlotID - 1];

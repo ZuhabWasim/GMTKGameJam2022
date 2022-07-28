@@ -8,12 +8,6 @@ public class HandManager : MonoBehaviour
     public static int HAND_SIZE = 5;
     public static int PLAY_SIZE = 3;
 
-    // TODO: See if i should replace each individual card stack with a list of lists.
-    public static int HAND = 0;
-    public static int CRAFTING = 1;
-    public static int PLAYING = 2;
-    public static int RESEARCHING = 3;
-
     public Deck deck;
     public bool isResearching = false;
 
@@ -35,33 +29,26 @@ public class HandManager : MonoBehaviour
         }
     }
 
-    public void Load()
+    public int GetCraftableIndex()
     {
-        
-    }
-    
-    public int getCraftableIndex()
-    {
-        // zero-based
-
         var sum = 0;
         foreach (Card card in crafting.stack)
         {
-            sum += deck.getDeckIndex(card) + 1;
+            sum += deck.GetDeckIndex(card) + 1;
         }
 
-        return sum - 1;
+        return sum - 1; // zero-based
     }
 
     public bool CraftCard()
     {
-        if (crafting.isEmpty()) return false;
+        if (crafting.IsEmpty()) return false;
 
-        var index = getCraftableIndex(); // The sum of all the crafting cards 0-based.
+        var index = GetCraftableIndex(); // The sum of all the crafting cards 0-based.
 
         if (isResearching) return false;
 
-        if (deck.isCraftableCard(index)) // 0-based.
+        if (deck.IsCraftableCard(index)) // 0-based.
         {
             if (index == Deck.RESEARCH_CARD_INDEX)
             {
@@ -72,7 +59,7 @@ public class HandManager : MonoBehaviour
                 DrawCard(index, generate: true);
             }
 
-            crafting.clearStack();
+            crafting.ClearStack();
             return true;
         }
 
@@ -81,11 +68,10 @@ public class HandManager : MonoBehaviour
 
     public bool DrawCard(int deckIndex, bool generate = false)
     {
-        // 0-based
         if (hand.Size() == HAND_SIZE) return false;
 
-        Card card = deck.GetCard(deckIndex);
-        hand.addToStack(card, generate);
+        Card card = deck.GetCard(deckIndex); // 0-based
+        hand.AddToStack(card, generate);
         return true;
     }
 
@@ -94,21 +80,21 @@ public class HandManager : MonoBehaviour
         // Generate a random tier and random card (that's not the research tier).
         int roll = Random.Range(0, Tier.tierIDs.Length);
         int tierID = Tier.tierIDs[roll];
-        Card card = deck.researchCardFromTier(tierID);
+        Card card = deck.ResearchCardFromTier(tierID);
 
-        researching.addToStack(card, generate: true);
+        researching.AddToStack(card, generate: true);
     }
 
     public void ClearStacks()
     {
-        hand.clearStack();
-        crafting.clearStack();
-        playing.clearStack();
-        researching.clearStack();
+        hand.ClearStack();
+        crafting.ClearStack();
+        playing.ClearStack();
+        researching.ClearStack();
     }
 
     void Update()
     {
-        isResearching = !researching.isEmpty();
+        isResearching = !researching.IsEmpty();
     }
 }

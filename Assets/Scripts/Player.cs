@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] public PlayerStatus status;
     [SerializeField] public ShieldList shields;
-    
+
     public bool turn = false;
     public PlayerTag playerTag;
     public string playerName = "";
@@ -33,18 +33,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     public void LoadPlayer()
     {
         deck.Load();
-        /*hand.Load(); */// Note that all cardstacks are tied to each player and won't be changed (just shown)
     }
-    
-    public void playCards()
+
+    public void PlayCards()
     {
         foreach (Card card in hand.playing.stack)
         {
@@ -52,7 +46,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public int rollForCards()
+    public int RollForCards()
     {
         int drawn = 0;
         for (int i = 0; i < dieCount; i++)

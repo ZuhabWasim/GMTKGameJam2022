@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 public class Tier
 {
     public static int[]
-        tierIDs = new int[] {1, 2}; // new int[]{0, 1, 2, 4, 5}; (while the other cards are still being developed)
+        tierIDs = new int[] {1, 2}; // TODO: Change to 'new int[]{0, 1, 2, 4, 5};' when more cards are developed.
 
     public static int RESEARCH_TIER = 3;
 
@@ -24,12 +24,13 @@ public class Tier
 
     public Tier(int tierStart, int tierEnd, int tierRarity, string tierName = null)
     {
-        start = tierStart - 1; // Range is 0-based and end is exclusive.
+        start = tierStart - 1; // This specifies deck indexes so the range is 0-based and end is exclusive.
         end = tierEnd;
         size = end - start;
         rarity = tierRarity;
         name = tierName;
 
+        // Add all of the card choices for each tier.
         GameObject cardBank = GameObject.FindGameObjectWithTag("CardBank");
 
         foreach (Transform child in cardBank.transform)
@@ -157,6 +158,8 @@ public class Card : MonoBehaviour
 
     public static Card GetCardFromBank(int id)
     {
+        // Returns the card component directly from the bank, to make sure we're not referencing one that will be destroyed.
+
         GameObject cardBank = GameObject.FindGameObjectWithTag("CardBank");
 
         foreach (Transform child in cardBank.transform)

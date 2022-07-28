@@ -14,7 +14,6 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // Debug.Log("OnPointerEnter");
         if (eventData.pointerDrag == null) return;
 
         // Don't update the placeholder to show that it's not possible to place in the stack.
@@ -32,7 +31,6 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        // Debug.Log("OnPointerExit");
         if (eventData.pointerDrag == null) return;
 
         // Update the placeholder back to the original place if the player didn't choose any other stack.
@@ -49,6 +47,8 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         Card card = eventData.pointerDrag.GetComponent<Card>();
         Draggable draggable = eventData.pointerDrag.GetComponent<Draggable>();
 
+        if (draggable == null) return;
+
         // Place the card on the new stack if it's possible.
         if (!Droppable(eventData)) return;
 
@@ -57,20 +57,15 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         {
             DeckSlot deckSlot = GetComponent<DeckSlot>();
             deckSlot.UpdateDeckSlot(card.id);
-            draggable.sourceDropZone.cardStack.removeFromStack(card);
+            draggable.sourceDropZone.cardStack.RemoveFromStack(card);
 
-            // TODO: Probably don't need this other draggable
-            Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
-
-            if (d != null)
-            {
-                Destroy(d.gameObject);
-            }
+            // Destroy the draggable when updating the deck slot.
+            Destroy(draggable.gameObject);
         }
-        // Otherwise we put cards in the d
+        // Otherwise we put cards in the other dropzone.
         else
         {
-            draggable.sourceDropZone.cardStack.moveToNewStack(cardStack, card.id);
+            draggable.sourceDropZone.cardStack.MoveToNewStack(cardStack, card.id);
 
             Debug.Log("Card " + card.name + " (" + card.id + ") was dropped from " +
                       draggable.sourceDropZone.dropZonetype +
@@ -78,13 +73,8 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 
             draggable.UpdateDropZone(this);
 
-            // TODO: Probably don't need this other draggable
-            Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
-
-            if (d != null)
-            {
-                d.parentToReturnTo = this.transform;
-            }
+            // Update the parent to the new dropzone.
+            draggable.parentToReturnTo = this.transform;
         }
     }
 
@@ -110,25 +100,18 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         }
 
         // If the card has a stack and it's full or any other reason, don't allow placing.
-        if (!draggable.sourceDropZone.cardStack.canMoveToNewStack(cardStack, card.id)) return false;
+        if (!draggable.sourceDropZone.cardStack.CanMoveToNewStack(cardStack, card.id)) return false;
 
         return true;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        /*LoadPlayerStacks();*/
     }
 
     public void LoadPlayerStacks()
     {
         if (dropZonetype == DropZoneType.DECK_SLOT) return;
-        
+
         // Assign the card stack with which ever player's turn it is
         cardStack = null;
-        Player player = GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>().getPlayerTurn();
-        //Player player = GameObject.FindGameObjectWithTag(PlayerTag.PlayerOne.ToString()).GetComponent<Player>();//GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>().getPlayerTurn();
+        Player player = GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>().GetPlayerTurn();
         foreach (CardStack playerCardStack in player.GetComponentsInChildren<CardStack>())
         {
             if (playerCardStack.dropZoneType == this.dropZonetype)
@@ -139,23 +122,8 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 
         // Remove all of the cards from the previous player
         cardStack.ClearStackObjects();
-        
+
         // and put in the next players cards from their stacks.
         cardStack.AddAllStackObjects();
-        /*foreach (Transform child in transform)
-        {
-            Destroy(child.gameObject);
-        }*/
-        /*// Adds to the stack any card in the dropzone already.
-        foreach (Transform child in transform)
-        {
-            Card card = child.GetComponent<Card>();
-            cardStack.addToStack(card);
-        }*/
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 }

@@ -10,14 +10,15 @@ public class CardStack : MonoBehaviour
 {
     public DropZoneType dropZoneType;
     public GameObject stackObj;
-    
+
     public bool isLimited = false;
     public int stackLimit;
-    
+
     // These are lists and not stacks because stacks don't show up in the inspector smh
     [SerializeField] public List<Card> stack = new();
 
     public delegate void OnStackChanged(Card card);
+
     public event OnStackChanged StackChanged;
 
     // Start is called before the first frame update
@@ -28,68 +29,49 @@ public class CardStack : MonoBehaviour
             Debug.LogWarning("No stack object specified, using this stack's object instead.");
             stackObj = this.gameObject;
         }
-        
-        // Note: Make sure the dropzone types match on the player and stack objects.
-        /*DropZone dropZone = stackObj.GetComponent<DropZone>();*/
-        /*if (dropZone != null)
-        {
-            dropZoneType = dropZone.dropZonetype;
-        }*/
-        
-        //clearStack();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    public bool moveToNewStack(CardStack newStack, int cardID)
+    public bool MoveToNewStack(CardStack newStack, int cardID)
     {
         for (int i = 0; i < stack.Count; i++)
-            if (stack[i].id == cardID)
+            if (stack[i].id == cardID && !newStack.IsFull())
             {
-                if (!newStack.isFull())
-                {
-                    Card temp = stack[i];
-                    newStack.addToStack(temp);
-                    stack.RemoveAt(i);
-                    StackChanged?.Invoke(temp);
-                    return true;
-                }
+                Card temp = stack[i];
+                newStack.AddToStack(temp);
+                stack.RemoveAt(i);
+                StackChanged?.Invoke(temp);
+                return true;
             }
 
         return false;
     }
 
-    public bool canMoveToNewStack(CardStack newStack, int cardID)
+    public bool CanMoveToNewStack(CardStack newStack, int cardID)
     {
         for (int i = 0; i < stack.Count; i++)
-            if (stack[i].id == cardID)
+            if (stack[i].id == cardID && !newStack.IsFull())
             {
-                if (!newStack.isFull())
-                {
-                    return true;
-                }
+                return true;
             }
 
         return false;
     }
 
-    public bool addToStack(Card card, bool generate = false)
+    public bool AddToStack(Card card, bool generate = false)
     {
-        if (isFull()) return false;
+        if (IsFull()) return false;
         stack.Add(card);
         if (generate)
         {
             Instantiate(Card.GetCardFromBank(card.id).gameObject, stackObj.transform);
         }
+
         StackChanged?.Invoke(card);
 
         return true;
     }
 
-    public bool removeFromStack(Card card)
+    public bool RemoveFromStack(Card card)
     {
         // Representation removal.
         for (int i = 0; i < stack.Count; i++)
@@ -106,12 +88,12 @@ public class CardStack : MonoBehaviour
         return false;
     }
 
-    public bool isFull()
+    public bool IsFull()
     {
         return (isLimited && stack.Count >= stackLimit);
     }
 
-    public bool isEmpty()
+    public bool IsEmpty()
     {
         return stack.Count == 0;
     }
@@ -121,7 +103,7 @@ public class CardStack : MonoBehaviour
         return stack.Count;
     }
 
-    public void clearStack()
+    public void ClearStack()
     {
         // Representation clearing.
         stack.Clear();
@@ -131,10 +113,10 @@ public class CardStack : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        
+
         StackChanged?.Invoke(null);
     }
-    
+
     public void ClearStackObjects()
     {
         // Game objects clearing.
@@ -142,6 +124,7 @@ public class CardStack : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+
         StackChanged?.Invoke(null);
     }
 

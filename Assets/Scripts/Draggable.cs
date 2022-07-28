@@ -16,8 +16,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        /*Debug.Log("On Begin Drag");*/
-
         CreatePlaceholder();
 
         parentToReturnTo = this.transform.parent;
@@ -29,7 +27,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnDrag(PointerEventData eventData)
     {
-        //Debug.Log("On Drag");
         this.transform.position = eventData.position;
 
         if (placeholder.transform.parent != placeholderParent)
@@ -61,8 +58,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        /*Debug.Log("On End Drag");*/
-
         this.transform.SetParent(parentToReturnTo);
         this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
 
@@ -95,10 +90,5 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void UpdateDropZone(DropZone dropZone)
     {
         sourceDropZone = dropZone;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 }

@@ -16,25 +16,18 @@ public class CardStackDisplay : MonoBehaviour
 {
     public CardStack cardStack;
     public DropZoneType dropZonetype;
-    
+
     public TextMeshProUGUI cardCounter;
     public TextMeshProUGUI cardMax;
     public Button button;
 
     public CounterType counterType;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        //LoadCardStackLinks();
-    }
 
     public void LoadCardStackLinks()
     {
         // Assign the card stack with which ever player's turn it is
         cardStack = null;
-        Player player = GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>().getPlayerTurn();
-        //Player player = GameObject.FindGameObjectWithTag(PlayerTag.PlayerOne.ToString()).GetComponent<Player>();//GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>().getPlayerTurn();
+        Player player = GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>().GetPlayerTurn();
         foreach (CardStack playerCardStack in player.GetComponentsInChildren<CardStack>())
         {
             if (playerCardStack.dropZoneType == this.dropZonetype)
@@ -42,6 +35,7 @@ public class CardStackDisplay : MonoBehaviour
                 cardStack = playerCardStack;
             }
         }
+
         if (cardStack == null)
         {
             Debug.LogError("No card stack defined in " + this.gameObject.name);
@@ -49,7 +43,7 @@ public class CardStackDisplay : MonoBehaviour
         }
 
         cardStack.StackChanged += OnStackChanged; // TODO: might cause issues with added subscribing.
-        
+
         if (cardCounter != null)
         {
             cardCounter.text = cardStack.Size() + "";
@@ -59,10 +53,10 @@ public class CardStackDisplay : MonoBehaviour
         {
             cardMax.text = "/" + cardStack.stackLimit;
         }
-        
+
         OnStackChanged(null);
     }
-    
+
     void OnStackChanged(Card card)
     {
         switch (counterType)
@@ -72,24 +66,20 @@ public class CardStackDisplay : MonoBehaviour
                 return;
             case CounterType.CraftableIndex:
                 Player player = GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>()
-                    .getPlayerTurn();
+                    .GetPlayerTurn();
                 if (player == null)
                 {
                     cardCounter.text = "0";
                 }
                 else
                 {
-                    cardCounter.text = player.hand.getCraftableIndex() + 1 + "";
+                    cardCounter.text = player.hand.GetCraftableIndex() + 1 + "";
                 }
+
                 return;
             default:
                 cardCounter.text = cardStack.Size() + "";
                 return;
         }
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
