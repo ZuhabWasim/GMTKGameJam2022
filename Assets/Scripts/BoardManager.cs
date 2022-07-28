@@ -9,6 +9,7 @@ public enum DropZoneType
     PLAYING,
     HAND,
     RESEARCHING,
+    DECK_SLOT
 }
 
 public class BoardManager : MonoBehaviour
@@ -16,55 +17,59 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Player player1;
     [SerializeField] private Player player2;
 
-    
     // Start is called before the first frame update
     void Start()
     {
         // By default set player1 to go first
         player1.turn = true;
-        
-        //UpdateBoard();
+        UpdateBoardTurn();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public Player getPlayerTurn()
+    public Player GetPlayerTurn()
     {
         return player1.turn ? player1 : player2;
     }
 
+    public void ChangePlayerTurn()
+    {
+        player1.turn = !player1.turn;
+        player2.turn = !player2.turn;
+        UpdateBoardTurn(); // Updates the board along with the turn.
+    }
+
     public void DrawCards()
     {
-        getPlayerTurn().rollForCards();
+        GetPlayerTurn().RollForCards();
     }
-    
+
     public void CraftCards()
     {
-        getPlayerTurn().hand.CraftCard();
+        GetPlayerTurn().hand.CraftCard();
     }
 
-    public void UpdateBoard()
+    public void WipeBoard()
     {
-        Player player = getPlayerTurn();
-        
+        GetPlayerTurn().WipeBoard();
     }
 
-    public void UpdateCardStack(CardStack cardStack, string cardStackTag)
+    public void UpdateBoardTurn()
     {
-        GameObject cardStackObj = GameObject.FindGameObjectWithTag(cardStackTag);
+        // Only updates the board based off of the current player (doesn't change the turn).
+        Player player = GetPlayerTurn();
+        player.LoadPlayer();
 
-        foreach (Card card in cardStack.stack)
+        // Update all drop zones objects (hard stack, craft stack) to reflect this player's stacks
+        foreach (DropZone dropZone in
+                 GameObject.FindGameObjectWithTag("CardStacks").GetComponentsInChildren<DropZone>())
         {
-            // If this Card isn't in the list
+            dropZone.LoadPlayerStacks();
         }
-        if (cardStackObj.transform.childCount == cardStack.Size())
+
+        // Update all display components to update on this new player's stack changes.
+        foreach (CardStackDisplay cardStackDisplay in
+                 GameObject.FindGameObjectWithTag("CardStacks").GetComponentsInChildren<CardStackDisplay>())
         {
-            
+            cardStackDisplay.LoadCardStackLinks();
         }
-        
     }
 }

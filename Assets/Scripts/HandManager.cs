@@ -7,16 +7,10 @@ public class HandManager : MonoBehaviour
 {
     public static int HAND_SIZE = 5;
     public static int PLAY_SIZE = 3;
-    
-    // TODO: See if i should replace each individual card stack with a list of lists.
-    public static int HAND = 0;
-    public static int CRAFTING = 1;
-    public static int PLAYING = 2;
-    public static int RESEARCHING = 3;
 
     public Deck deck;
     public bool isResearching = false;
-    
+
     [SerializeField] public CardStack crafting;
     [SerializeField] public CardStack hand;
     [SerializeField] public CardStack playing;
@@ -35,63 +29,72 @@ public class HandManager : MonoBehaviour
         }
     }
 
-    public int getCraftableIndex()
+    public int GetCraftableIndex()
     {
         var sum = 0;
-        foreach (Card card in crafting.stack) sum += deck.getDeckIndex(card);
+        foreach (Card card in crafting.stack)
+        {
+            sum += deck.GetDeckIndex(card) + 1;
+        }
 
-        return sum;
+        return sum - 1; // zero-based
     }
 
     public bool CraftCard()
     {
-        var index = getCraftableIndex(); // The sum of all the crafting cards.
+        if (crafting.IsEmpty()) return false;
 
-        if (researching.Size() > 0)
-        {
-            return false;
-        }
-        
-        if (deck.isCraftableCard(index))
+        var index = GetCraftableIndex(); // The sum of all the crafting cards 0-based.
+
+        if (isResearching) return false;
+
+        if (deck.IsCraftableCard(index)) // 0-based.
         {
             if (index == Deck.RESEARCH_CARD_INDEX)
             {
                 Research();
-                // TODO: Researching functionality.
-                // Generate a random card of any tier but the research tier
-                // Force player to select where they want the new card to be
-                //DrawCard(index);
             }
             else
             {
-                DrawCard(index);
+                DrawCard(index, generate: true);
             }
 
-            crafting.clearStack();
+            crafting.ClearStack();
             return true;
         }
 
         return false;
     }
 
-    public bool DrawCard(int deckIndex)
+    public bool DrawCard(int deckIndex, bool generate = false)
     {
         if (hand.Size() == HAND_SIZE) return false;
 
-        Card card = deck.GetCard(deckIndex);
-        hand.addToStack(card);
+        Card card = deck.GetCard(deckIndex); // 0-based
+        hand.AddToStack(card, generate);
         return true;
     }
 
     public void Research()
     {
         // Generate a random tier and random card (that's not the research tier).
-        int tierID = Tier.TIER_IDS[Random.Range(0, Tier.TIER_IDS.Length)];
-        Card card = deck.researchCardFromTier(tierID);
-        
-        researching.addToStack(card);
+        int roll = Random.Range(0, Tier.tierIDs.Length);
+        int tierID = Tier.tierIDs[roll];
+        Card card = deck.ResearchCardFromTier(tierID);
 
-        isResearching = true;
+        researching.AddToStack(card, generate: true);
+    }
 
+    public void ClearStacks()
+    {
+        hand.ClearStack();
+        crafting.ClearStack();
+        playing.ClearStack();
+        researching.ClearStack();
+    }
+
+    void Update()
+    {
+        isResearching = !researching.IsEmpty();
     }
 }

@@ -8,7 +8,9 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class Tier
 {
-    public static int[] TIER_IDS = new int[] {0, 1, 2, 4, 5};
+    public static int[]
+        tierIDs = new int[] {1, 2}; // TODO: Change to 'new int[]{0, 1, 2, 4, 5};' when more cards are developed.
+
     public static int RESEARCH_TIER = 3;
 
     public int start;
@@ -22,12 +24,13 @@ public class Tier
 
     public Tier(int tierStart, int tierEnd, int tierRarity, string tierName = null)
     {
-        start = tierStart - 1;
+        start = tierStart - 1; // This specifies deck indexes so the range is 0-based and end is exclusive.
         end = tierEnd;
         size = end - start;
         rarity = tierRarity;
         name = tierName;
 
+        // Add all of the card choices for each tier.
         GameObject cardBank = GameObject.FindGameObjectWithTag("CardBank");
 
         foreach (Transform child in cardBank.transform)
@@ -67,6 +70,41 @@ public class Tier
         Card card = cardChoices[roll];
         cardChoices.RemoveAt(roll);
         return card;
+    }
+
+    public Card GetRandomCardWithReplacement()
+    {
+        int roll = Random.Range(0, cardChoices.Count - 1);
+
+        Card card = cardChoices[roll];
+        return card;
+    }
+
+    public static Color32 GetTierColor(int tier)
+    {
+        switch (tier)
+        {
+            case 0:
+                return new Color32(159, 227, 254, 255);
+
+            case 1:
+                return new Color32(247, 252, 168, 255);
+
+            case 2:
+                return new Color32(254, 207, 159, 255);
+
+            case 3:
+                return new Color32(178, 254, 219, 255);
+
+            case 4:
+                return new Color32(223, 155, 253, 255);
+
+            case 5:
+                return new Color32(253, 157, 203, 255);
+
+            default:
+                return new Color32(180, 180, 180, 255);
+        }
     }
 }
 
@@ -113,33 +151,27 @@ public class Card : MonoBehaviour
     void Start()
     {
         //Assign card color based on tier
-        if (tier == 0)
-        {
-            cardColor.color = new Color32(159, 227, 254, 255);
-        }
-        else if (tier == 1)
-        {
-            cardColor.color = new Color32(247, 252, 168, 255);
-        }
-        else if (tier == 2)
-        {
-            cardColor.color = new Color32(254, 207, 159, 255);
-        }
-        else if (tier == 3)
-        {
-            cardColor.color = new Color32(178, 254, 219, 255);
-        }
-        else if (tier == 3)
-        {
-            cardColor.color = new Color32(223, 155, 253, 255);
-        }
-        else if (tier == 3)
-        {
-            cardColor.color = new Color32(253, 157, 203, 255);
-        }
-
+        cardColor.color = Tier.GetTierColor(tier);
         txtTitle.text = name;
         txtDescription.text = description;
+    }
+
+    public static Card GetCardFromBank(int id)
+    {
+        // Returns the card component directly from the bank, to make sure we're not referencing one that will be destroyed.
+
+        GameObject cardBank = GameObject.FindGameObjectWithTag("CardBank");
+
+        foreach (Transform child in cardBank.transform)
+        {
+            Card card = child.GetComponent<Card>();
+            if (card.id == id)
+            {
+                return card;
+            }
+        }
+
+        return null;
     }
 
     public virtual void ApplyCardEffects()
